@@ -1,1 +1,36 @@
-<app-collection-item-car>
+<header id="collection-header">
+    <h1>My Collection</h1>
+    <div>
+        <app-search-bar
+            [(search)]="search"
+        ></app-search-bar>
+    </div>
+</header>
+<section class="collection-grid">
+    @for (item of collectionItems(); track item.name){
+        @switch (item.rarity) {
+            @case ('Legendaire') {
+                <div>
+                    <app-collection-item-car [item]="item"></app-collection-item-car>
+                    <hr class="gold">
+                </div>
+            }
+            @case ('Rare') {
+                <div>
+                    <app-collection-item-car [item]="item"></app-collection-item-car>
+                    <hr class="grey">
+                </div>
+            }
+            @default {
+                <app-collection-item-car [item]="item"></app-collection-item-car>
+            }
+        }
+    }
+</section>
+@let itemsCount = collectionItems()?.length;
+@if (itemsCount) {
+    <div class="centered">Found {{itemsCount}} results</div>
+} @else {
+    <div class="centered">No items found</div>
+}
+<div lass="centered"><button (click)="addGenericItem()">Add Generic Item</button></div>
